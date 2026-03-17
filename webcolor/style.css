@@ -1,0 +1,23 @@
+/* 1. Centra todo en la pantalla */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centra el texto dentro de los elementos */
+    font-family: sans-serif;
+}
+
+/* 2. Quita el espacio extra de los textos */
+h1, p {
+    margin: 5px 0; /* Solo 5px de separación arriba y abajo */
+}
+
+/* 3. Controla el contenedor principal */
+.interface {
+    display: flex;
+    flex-direction: column; /* Pone los elementos uno debajo del otro */
+    align-items: center;    /* Centra el input y el texto horizontalmente */
+    gap: 10px;              /* Espacio exacto entre cada cosa */
+}
