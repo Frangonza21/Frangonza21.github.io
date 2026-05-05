@@ -1,49 +1,30 @@
-
 .color {
-    height: 550px;
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    justify-content: center; 
+    gap: 20px; 
 }
 
 .titulo {
-    margin-bottom: auto;
     font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
 }
 
-.boton {
-    margin-left: 0;
-    margin-right: 800px;
-    margin-top: 0;
-    margin-bottom: 180px;
-}
-
-.fondo {
-    background-color: rgb(206, 206, 206);
+.boton, .rageboton {
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .foto {
-    align-items: center;
     width: 350px;
     height: auto;
-    border-radius: 0%;
-    transform: translate(-400px, -120px);
+    border-radius: 10px;
 }
 
-.contacto {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-decoration: underline;
-    color: #333;
-}
-
-.contactos {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-decoration: none;
-    color: #333;
-}
-
-a.contacto:hover {
-    color: #007BFF;
-    text-decoration: underline;
+.Contacto {
+    list-style: none; 
+    padding: 0;
+    text-align: center;
 }
