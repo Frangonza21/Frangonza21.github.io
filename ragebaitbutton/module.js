@@ -15,6 +15,7 @@ btn.addEventListener("click", function(e) {
 
 btn.addEventListener("mouseenter", function(e) {
 
+if (atrapado) return;
 
 const posX = btn.style.left;
 const posY = btn.style.top;
