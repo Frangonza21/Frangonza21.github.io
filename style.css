@@ -48,6 +48,8 @@
     width: 350px;
     height: auto;
     border-radius: 10px;
+    margin-top: 10px; /* Espacio extra respecto a lo que tiene arriba */
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1); /* Opcional: una sombrita para que resalten */
 }
 
 .Contacto {
