@@ -1,10 +1,10 @@
 .color {
-    min-height: 100vh; 
+    min-height: 100vh; /* Cambia height por min-height */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; 
-    gap: 20px; 
+    gap: 10px;
+    padding: 20px; /* Un poco de aire en los bordes */
 }
 
 .titulo {
@@ -27,4 +27,14 @@
     list-style: none; 
     padding: 0;
     text-align: center;
+}
+
+.rageboton {
+    background-color: #ff4444; /* Rojo para que resalte */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
