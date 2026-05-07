@@ -124,4 +124,14 @@
 .contacto, .contactos {
     font-family: sans-serif;
     color: #333;
+    transition: color 0.2s;
+
+}
+
+.contacto {
+     text-decoration: underline;
+}
+
+.contacto:hover {
+    color: #0000EE; /* Color azul típico de enlaces */
 }
