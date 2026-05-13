@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emulador NES Web Inmediato</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 { margin-bottom: 20px; }
+        .upload-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="file"] { display: none; }
+        .custom-file-upload {
+            border: 2px solid #28a745;
+            background-color: #28a745;
+            color: white;
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        #file-name { color: #aaa; font-size: 14px; }
+        #game-container {
+            width: 512px;
+            height: 480px;
+            background-color: #000;
+            border: 5px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!-- Cargamos las librerías estáticas directamente desde un CDN global de confianza -->
+        <!-- Reemplaza la etiqueta del script rota por esta completa: -->
+    <script src="https://cdn.jsdelivr.net/npm/jsnes@latest/dist/jsnes.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Carga tu propia ROM de NES</h1>
+
+    <div class="upload-container">
+        <label for="rom-file-picker" class="custom-file-upload">
+            Seleccionar archivo .nes
+        </label>
+        <input id="rom-file-picker" type="file" accept=".nes" />
+        <span id="file-name">Ningún archivo seleccionado</span>
+    </div>
+
+    <div id="game-container">
+        <canvas id="nes-canvas"></canvas>
+    </div>
+
+<script>
+    const canvas = document.getElementById('nes-canvas');
+    const ctx = canvas.getContext('2d');
+    let nes;
+    let animationFrameId;
+
+    // Configuración de teclado estándar de NES
+     const keyboardMap = {
+        38: jsnes.Controller.BUTTON_UP,      // Flecha Arriba
+        40: jsnes.Controller.BUTTON_DOWN,    // Flecha Abajo
+        37: jsnes.Controller.BUTTON_LEFT,    // Flecha Izquierda
+        39: jsnes.Controller.BUTTON_RIGHT,   // Flecha Derecha
+        13: jsnes.Controller.BUTTON_START,   // Enter
+        16: jsnes.Controller.BUTTON_SELECT,  // Shift / Mayús
+        88: jsnes.Controller.BUTTON_A,       // Tecla X
+        90: jsnes.Controller.BUTTON_B        // Tecla Z
+    };
+    
+    document.getElementById('rom-file-picker').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        document.getElementById('file-name').textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const arrayBuffer = e.target.result;
+            
+            // CONVERSIÓN SEGURA: Esto evita que los gráficos del juego se rompan
+            const bytes = new Uint8Array(arrayBuffer);
+            let romData = "";
+            for (let i = 0; i < bytes.length; i++) {
+                romData += String.fromCharCode(bytes[i]);
+            }
+            
+            // Detener cualquier juego que esté corriendo antes
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            // Inicializar una nueva instancia limpia de JSNES
+            nes = new jsnes.NES({
+                // Busca la función onFrame dentro de tu código y reemplázala por esta:
+onFrame: function(buffer) {
+    const imageData = ctx.createImageData(256, 240);
+    const data = imageData.data;
+    for (let i = 0; i < buffer.length; i++) {
+        const color = buffer[i];
+        
+        // RECTIFICACIÓN DE CANALES: Extraemos los colores respetando el orden RGBA de HTML5
+        const r = color & 0xff;          // El Rojo estaba al final del bit en JSNES
+        const g = (color >> 8) & 0xff;   // El Verde se mantiene al centro
+        const b = (color >> 16) & 0xff;  // El Azul estaba al principio del bit
+        
+        const index = i * 4;
+        data[index] = r;     // Rojo
+        data[index+1] = g;   // Verde
+        data[index+2] = b;   // Azul
+        data[index+3] = 255; // Alfa (Opacidad total)
+    }
+    ctx.putImageData(imageData, 0, 0);
+}
+
+            });
+
+            // Cargar la ROM procesada correctamente
+            nes.loadROM(romData);
+
+            // Bucle de renderizado a 60 FPS continuos
+            function de() {
+                nes.frame();
+                animationFrameId = requestAnimationFrame(de);
+            }
+            canvas.width = 256;
+            canvas.height = 240;
+            de();
+        };
+        
+        // CAMBIO CRÍTICO: Leemos el archivo como ArrayBuffer para no corromper los datos
+        reader.readAsArrayBuffer(file);
+    });
+
+    // Captura de los controles presionados
+    window.addEventListener("keydown", (e) => {
+        if (nes && keyboardMap[e.keyCode] !== undefined) {
+            nes.buttonDown(1, keyboardMap[e.keyCode]);
+            e.preventDefault();
+        }
+    });
+    window.addEventListener("keyup", (e) => {
+        if (nes && keyboardMap[e.keyCode] !== undefined) {
+            nes.buttonUp(1, keyboardMap[e.keyCode]);
+            e.preventDefault();
+        }
+    });
+</script>
+
+</body>
+
+
+<footer style="margin-top: 20px; color: #555; font-size: 12px;">
+    <p>Fran Gonza &copy; 2026 - sin derechos por parte de nintendo no medemanden 👉👈 porfa</p>
+</footer>
+</html>
