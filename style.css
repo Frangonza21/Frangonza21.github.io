@@ -1,49 +1,137 @@
-
+/* Contenedor principal */
 .color {
-    height: 550px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    min-height: 100vh;
+    background-color: rgb(206, 206, 206);
+    padding: 20px;
+    gap: 30px;
 }
 
-.titulo {
-    margin-bottom: auto;
-    font-family: Arial, Helvetica, sans-serif;
+/* El contenedor que pone las columnas una al lado de la otra */
+.contenedor-columnas {
+    display: flex;
+    flex-direction: row; /* Horizontal */
+    justify-content: center;
+    gap: 40px; /* Espacio entre la columna 1 y la 2 */
+    width: 100%;
+}
+
+/* Cada columna individual (Botón + Foto) */
+.columna {
+    display: flex;
+    flex-direction: column; /* Vertical (Botón arriba, Foto abajo) */
+    align-items: center;
+    gap: 15px; /* Espacio entre el botón y su foto */
+}
+
+/* Botones */
+.boton, .rageboton {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 200px; /* Ancho fijo para que se vean iguales */
+}
+
+.boton { background-color: #e0e0e0; color: black; }
+.rageboton { background-color: #ff4444; color: white; }
+
+/* Fotos */
+.foto {
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+.titulo { font-family: Arial, sans-serif; }
+
+.Contacto {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}/* 1. Base y Contenedor Principal */
+.color {
+    display: flex;
+    flex-direction: column; /* Todo va hacia abajo */
+    align-items: center;
+    min-height: 100vh;
+    gap: 20px;
+    background-color: rgb(206, 206, 206);
+    padding: 20px;
+}
+
+/* 2. Fila de Botones */
+.contenedor-botones {
+    display: flex;
+    flex-direction: row; /* Botones de lado a lado */
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+/* 3. Estilo de los Botones */
+.boton, .rageboton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    transition: transform 0.2s;
+}
+
+.boton:hover, .rageboton:hover {
+    transform: scale(1.05);
 }
 
 .boton {
-    margin-left: 0;
-    margin-right: 800px;
-    margin-top: 0;
-    margin-bottom: 180px;
+    background-color: #e0e0e0;
+    color: black;
 }
 
-.fondo {
-    background-color: rgb(206, 206, 206);
+.rageboton {
+    background-color: #ff4444;
+    color: white;
 }
 
+/* 4. Estilo de las FOTOS (Asegúrate de que en el HTML diga class="foto") */
 .foto {
-    align-items: center;
-    width: 350px;
+    display: block; /* Fuerza a que no tengan nada a los lados */
+    width: 400px;
     height: auto;
-    border-radius: 0%;
-    transform: translate(-400px, -120px);
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    margin: 10px 0;
+}
+
+/* 5. Textos y Contacto */
+.titulo {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 20px;
+}
+
+.Contacto {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.contacto, .contactos {
+    font-family: sans-serif;
+    color: #333;
+    transition: color 0.2s;
+
 }
 
 .contacto {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-decoration: underline;
-    color: #333;
+     text-decoration: underline;
 }
 
-.contactos {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-decoration: none;
-    color: #333;
-}
-
-a.contacto:hover {
-    color: #007BFF;
-    text-decoration: underline;
+.contacto:hover {
+    color: #0000EE; /* Color azul típico de enlaces */
 }
